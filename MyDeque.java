@@ -29,36 +29,40 @@ public class MyDeque<E> {
     }
 
     public String toString() {
-        if(size == 0) return "[]";
-        String result = "[";
-        if(start > end){ //add start segment, then end segment
-            for(int i = start; i < data.length; i++){
-                result += data[i] + ", ";
+        if (size == 0)
+            return "[]";
+        StringBuilder result = new StringBuilder("[");
+        if (start > end) { // add start segment, then end segment
+            for (int i = start; i < data.length; i++) {
+                result.append(data[i] + ", ");
             }
-            for(int i = 0; i <= end; i++){
-                result += data[i];
-                if(i < end) result += ", ";
+            for (int i = 0; i <= end; i++) {
+                result.append(data[i]);
+                if (i < end)
+                    result.append(", ");
             }
-        } else { //start = end or start < end
-            for(int i = start; i <= end; i++){
-                result += data[i];
-                if(i < end) result += ", ";
+        } else { // start = end or start < end
+            for (int i = start; i <= end; i++) {
+                result.append(data[i]);
+                if (i < end)
+                    result.append(", ");
             }
         }
-        result += "]";
-        return result;
+        result.append("]");
+        return result.toString();
     }
 
     public void addFirst(E element) {
-        if(element == null) throw new NullPointerException();
+        if (element == null)
+            throw new NullPointerException();
         if (end == start || size == data.length || data.length == 0) {
             resize();
         }
-        if(size == 0){ //first element
+        if (size == 0) { // first element
             data[start] = element;
             size++;
-        } else if(start == 0){
-            start = data.length-1;
+        } else if (start == 0) {
+            start = data.length - 1;
             data[start] = element;
             size++;
         } else {
@@ -69,12 +73,13 @@ public class MyDeque<E> {
     }
 
     public void addLast(E element) {
-        if(element == null) throw new NullPointerException();
+        if (element == null)
+            throw new NullPointerException();
         if (end == start || size == data.length || data.length == 0) {
             resize();
         }
         end++;
-        if(end == data.length) {
+        if (end == data.length) {
             end = 0;
             data[end] = element;
         } else {
@@ -84,10 +89,11 @@ public class MyDeque<E> {
     }
 
     public E removeFirst() {
-        if(size == 0) throw new NoSuchElementException();
+        if (size == 0)
+            throw new NoSuchElementException();
         E removed = data[start];
         data[start] = null;
-        if(start == data.length - 1){
+        if (start == data.length - 1) {
             start = 0;
             size--;
         } else {
@@ -98,10 +104,11 @@ public class MyDeque<E> {
     }
 
     public E removeLast() {
-        if(size == 0) throw new NoSuchElementException();
+        if (size == 0)
+            throw new NoSuchElementException();
         E removed = data[end];
         data[end] = null;
-        if(end == 0) {
+        if (end == 0) {
             end = data.length - 1;
             size--;
         } else {
@@ -112,12 +119,14 @@ public class MyDeque<E> {
     }
 
     public E getFirst() {
-        if(size == 0) throw new NoSuchElementException();
+        if (size == 0)
+            throw new NoSuchElementException();
         return data[start];
     }
 
     public E getLast() {
-        if(size == 0) throw new NoSuchElementException();
+        if (size == 0)
+            throw new NoSuchElementException();
         return data[end];
     }
 
@@ -126,19 +135,19 @@ public class MyDeque<E> {
         @SuppressWarnings("unchecked")
         E[] move = (E[]) new Object[size * size + 1];
 
-        if(data.length == 0){
-            //do nothing
-        } else if(start == end){ //not sure if this is necessary but whatever
+        if (data.length == 0) {
+            // do nothing
+        } else if (start == end) { // not sure if this is necessary but whatever
             move[0] = data[start];
             start = 0;
             end = 0;
-        } else if(start > end){
+        } else if (start > end) {
             int ind = 0;
-            for(int i = start; i < data.length; i++){
+            for (int i = start; i < data.length; i++) {
                 move[ind] = data[i];
                 ind++;
             }
-            for(int i = 0; i <= end; i++){
+            for (int i = 0; i <= end; i++) {
                 move[ind] = data[i];
                 ind++;
             }
@@ -146,7 +155,7 @@ public class MyDeque<E> {
             end = size - 1;
         } else {
             int ind = 0;
-            for(int i = start; i <= end; i++){
+            for (int i = start; i <= end; i++) {
                 move[ind] = data[i];
                 ind++;
             }
@@ -154,7 +163,7 @@ public class MyDeque<E> {
             end = size - 1;
         }
 
-        //copies move to data
+        // copies move to data
         data = Arrays.copyOf(move, move.length);
     }
 }
